@@ -95,7 +95,7 @@ function Upload() {
 
   return (
 <>
-  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 text-center">
+  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 text-center mb-10">
     <p className="inline-block border rounded-2xl py-1 px-4 text-slate-500 text-sm mb-5 hover:scale-105 transition duration-300 ease-in-out">
       Convert PDF resumes into structured JSON data
     </p>
@@ -228,26 +228,56 @@ function Upload() {
         </button>
       </div>
 
-      <div className="w-full lg:w-1/2 bg-black text-white p-6 rounded-lg shadow-md h-96 overflow-y-auto">
-        <div className="relative">
-          <pre className="whitespace-pre-wrap break-words bg-gray-800 p-4 rounded-lg">
-            {loading
-              ? loadingText
-              : rawResponse
-              ? <span dangerouslySetInnerHTML={{ __html: highlightKeys(rawResponse) }} />
-              : "Upload your resume to see the JSON response"}
-          </pre>
-          {rawResponse && (
-            <button
-              onClick={handleCopy}
-              className="absolute top-2 right-2 flex items-center bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition duration-300"
-            >
-              <FaCopy className="mr-2" />
-              {copied ? "Copied" : "Copy"}
-            </button>
-          )}
-        </div>
+      <div className="w-full lg:w-1/2 text-white h-96 overflow-hidden">
+  <div className="relative">
+    <div className="flex justify-between items-center bg-blue-500 p-2 rounded-t-lg">
+      <span className="text-white font-semibold">Sample API Response</span>
+      <div className="flex items-center space-x-2">
+        <button
+          onClick={handleCopy}
+          className="flex items-center  text-white p-1 rounded transition duration-300"
+        >
+          <FaCopy className="mr-1" />
+          {copied ? "Copied" : "Copy"}
+        </button>
       </div>
+    </div>
+    <pre
+      className="whitespace-pre-wrap break-words bg-gray-800 p-4 text-white custom-scrollbar"
+      style={{ 
+        maxWidth: '100%', 
+        height: '400px', 
+        overflowY: 'scroll', 
+        borderBottomLeftRadius: '0.5rem', 
+        borderBottomRightRadius: '0.5rem' 
+      }}
+      dangerouslySetInnerHTML={{
+        __html: loading
+          ? loadingText
+          : rawResponse
+          ? highlightKeys(rawResponse)
+          : "Upload your resume to see the JSON response"
+      }}
+    />
+  </div>
+  <style jsx>{`
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 8px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #2d3748; /* Darker background for the track */
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: #4a5568; /* Darker thumb color */
+      border-radius: 4px;
+      border: 2px solid #2d3748; /* Match the track background */
+    }
+    .custom-scrollbar {
+      scrollbar-width: thin;
+      scrollbar-color: #4a5568 #2d3748;
+    }
+  `}</style>
+</div>
     </div>
     <ToastContainer />
   </div>

@@ -52,6 +52,12 @@ export default function Features() {
     }
   };
 
+  const highlightKeys = (jsonString) => {
+    return jsonString
+      .replace(/"([^"]+)":/g, '<span class="text-orange-600">"$1"</span>:')
+      .replace(/([{}[\],])/g, '<span class="text-orange-600">$1</span>')
+      .replace(/([^{}[\],]+)/g, '<span class="text-yellow-600">$1</span>');
+  };
   return (
 <section className="py-8 sm:py-12 lg:py-16">
   <div className="container max-w-xl p-6 mx-auto space-y-12 lg:px-8 lg:max-w-7xl">
@@ -129,12 +135,45 @@ export default function Features() {
         </div>
       </div>
       <div aria-hidden="true" className="mt-10 lg:mt-0">
-        <div className="relative">
-          <pre className="whitespace-pre-wrap break-words bg-gray-800 p-4 rounded-lg text-white overflow-auto" style={{ maxWidth: '100%', height: '400px' }}>
-            {JSON.stringify(rawJSON, null, 2)}
-          </pre>
-        </div>
-      </div>
+      <div className="relative">
+  <div className="flex justify-between items-center bg-blue-500 p-2 rounded-t-lg">
+    <span className="text-white font-semibold">Sample API Response</span>
+    <div className="flex space-x-2">
+      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 20 20">
+        <circle cx="10" cy="10" r="9" strokeWidth="2" />
+      </svg>
+      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 20 20">
+        <circle cx="10" cy="10" r="9" strokeWidth="2" />
+      </svg>
+      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 20 20">
+        <circle cx="10" cy="10" r="9" strokeWidth="2" />
+      </svg>
+    </div>
+  </div>
+  <pre
+    className="whitespace-pre-wrap break-words bg-gray-800 p-4 rounded-b-lg text-white custom-scrollbar"
+    style={{ maxWidth: '100%', height: '400px', overflowY: 'scroll' }}
+    dangerouslySetInnerHTML={{ __html: highlightKeys(JSON.stringify(rawJSON, null, 2)) }}
+  />
+  <style jsx>{`
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 8px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #2d3748; /* Darker background for the track */
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: #4a5568; /* Darker thumb color */
+      border-radius: 4px;
+      border: 2px solid #2d3748; /* Match the track background */
+    }
+    .custom-scrollbar {
+      scrollbar-width: thin;
+      scrollbar-color: #4a5568 #2d3748;
+    }
+  `}</style>
+</div>
+</div>
     </div>
   </div>
 </section>
